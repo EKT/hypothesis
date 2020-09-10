@@ -54,14 +54,23 @@ class HypothesisPlugin extends GenericPlugin {
 		if ($hookName != 'TemplateManager::display') return false;
 		$templateMgr = $args[0];
 		$template = $args[1];
-		$plugin = 'plugins-generic-pdfJsViewer';
+		$pluginPdfJsViewer = 'plugins-generic-pdfJsViewer';
 		$submissiontpl = 'submissionGalley.tpl';
 		$issuetpl = 'issueGalley.tpl';
-		
+
+		//pdf
 		// template path contains the plugin path, and ends with the tpl file
-		if ( (strpos($template, $plugin) !== false) && (  (strpos($template, ':'.$submissiontpl,  -1 - strlen($submissiontpl)) !== false)  ||  (strpos($template, ':'.$issuetpl,  -1 - strlen($issuetpl)) !== false))) {
+		if ( (strpos($template, $pluginPdfJsViewer) !== false) && (  (strpos($template, ':'.$submissiontpl,  -1 - strlen($submissiontpl)) !== false)  ||  (strpos($template, ':'.$issuetpl,  -1 - strlen($issuetpl)) !== false))) {
 			$templateMgr->registerFilter("output", array($this, 'changePdfjsPath'));
 		}
+
+		//epub
+		$pluginEpubJsViewer = 'plugins-generic-epubJsViewer';
+		if ( (strpos($template, $pluginEpubJsViewer) !== false) && (  (strpos($template, ':'.$submissiontpl,  -1 - strlen($submissiontpl)) !== false)  ||  (strpos($template, ':'.$issuetpl,  -1 - strlen($issuetpl)) !== false))) {
+			$templateMgr->registerFilter("output", array($this, 'changeEpubjsPath'));
+		}
+
+
 		return false;
 	}
 
@@ -73,6 +82,11 @@ class HypothesisPlugin extends GenericPlugin {
 	 */
 	function changePdfjsPath($output, $templateMgr) {
 		$newOutput = str_replace('pdfJsViewer/pdf.js/web/viewer.html?file=', 'hypothesis/pdf.js/viewer/web/viewer.html?file=', $output);
+		return $newOutput;
+	}
+
+	function changeEpubjsPath($output, $templateMgr) {
+		$newOutput = str_replace('epubJsViewer/epub.js/index.html?url=', 'hypothesis/epub.js-hypothes.is/index.html?url=', $output);
 		return $newOutput;
 	}
 
