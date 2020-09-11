@@ -86,7 +86,7 @@ class HypothesisPlugin extends GenericPlugin {
 	}
 
 	function changeEpubjsPath($output, $templateMgr) {
-		$newOutput = str_replace('epubJsViewer/epub.js/index.html?url=', 'hypothesis/epub.js-hypothes.is/index.html?url=', $output);
+		$newOutput = str_replace('epubJsViewer/epub.js/index.html?url=', 'hypothesis/epub.js/index.html?url=', $output);
 		return $newOutput;
 	}
 
