@@ -55,6 +55,7 @@ class HypothesisPlugin extends GenericPlugin {
 		$templateMgr = $args[0];
 		$template = $args[1];
 		$pluginPdfJsViewer = 'plugins-generic-pdfJsViewer';
+		$pluginEpubJsViewer = 'plugins-generic-epubJsViewer';
 		$submissiontpl = 'submissionGalley.tpl';
 		$issuetpl = 'issueGalley.tpl';
 
@@ -65,11 +66,10 @@ class HypothesisPlugin extends GenericPlugin {
 		}
 
 		//epub
-		$pluginEpubJsViewer = 'plugins-generic-epubJsViewer';
+		// template path contains the plugin path, and ends with the tpl file
 		if ( (strpos($template, $pluginEpubJsViewer) !== false) && (  (strpos($template, ':'.$submissiontpl,  -1 - strlen($submissiontpl)) !== false)  ||  (strpos($template, ':'.$issuetpl,  -1 - strlen($issuetpl)) !== false))) {
 			$templateMgr->registerFilter("output", array($this, 'changeEpubjsPath'));
 		}
-
 
 		return false;
 	}
@@ -86,7 +86,7 @@ class HypothesisPlugin extends GenericPlugin {
 	}
 
 	function changeEpubjsPath($output, $templateMgr) {
-		$newOutput = str_replace('epubJsViewer/epub.js/index.html?url=', 'hypothesis/epub.js/index.html?url=', $output);
+		$newOutput = str_replace('epubJsViewer/viewer/index.html?url=', 'hypothesis/epub.js/index.html?url=', $output);
 		return $newOutput;
 	}
 
